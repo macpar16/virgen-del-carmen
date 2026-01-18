@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Virgen del Carmen - Gestión Camaronera</title>
+    <style>
+        :root { 
+            --primary: #1a4a7a; 
+            --secondary: #28a745; 
+            --accent: #007bff;
+            --bg: #f4f7f9; 
+            --text: #2d3748;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background-color: var(--bg); 
+            display: flex; 
+            justify-content: center; 
+            padding: 20px;
+            color: var(--text);
+        }
+
+        .container { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
+            width: 100%; 
+            max-width: 600px; 
+            border-top: 10px solid var(--primary);
+        }
+
+        /* ENCABEZADO */
+        .header { text-align: center; margin-bottom: 30px; }
+        .logo-container { margin-bottom: 15px; }
+        .logo-container img { max-width: 100px; height: auto; } /* Tamaño ideal para isotipo minimalista */
+        .company-name { 
+            color: var(--primary); 
+            font-size: 1.8rem; 
+            font-weight: 800; 
+            margin: 0; 
+            text-transform: uppercase; 
+            letter-spacing: 2px;
+        }
+        .subtitle { font-size: 0.9rem; color: #718096; margin-top: 5px; font-weight: 500; }
+
+        /* SECCIÓN DE REGISTRO */
+        .section-title { 
+            font-size: 0.85rem; 
+            text-transform: uppercase; 
+            color: var(--primary); 
+            font-weight: bold; 
+            margin-bottom: 15px; 
+            border-bottom: 1px solid #edf2f7;
+            padding-bottom: 5px;
+        }
+
+        .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .field { text-align: left; }
+        label { font-size: 0.75rem; font-weight: bold; color: #4a5568; display: block; margin-bottom: 5px; }
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            border: 2px solid #edf2f7; 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            font-size: 0.95rem; 
+            transition: all 0.3s ease;
+        }
+        input:focus { border-color: var(--accent); outline: none; background: #fff; }
+
+        /* BOTONES */
+        button.btn-calc { 
+            width: 100%; 
+            padding: 18px; 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            border-radius: 10px; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        button.btn-calc:hover { background: #133558; transform: translateY(-1px); }
+
+        /* RESULTADOS */
+        .results-box { 
+            margin-top: 35px; 
+            background: #f8fafc; 
+            padding: 25px; 
+            border-radius: 12px; 
+            border: 1px solid #e2e8f0;
+            display: none; 
+            animation: fadeIn 0.6s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .res-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #edf2f7; }
+        .res-label { font-weight: 500; color: #4a5568; }
+        .res-val { font-weight: 800; color: var(--primary); font-size: 1.1rem; }
+
+        .total-box { 
+            margin-top: 20px; 
+            background: var(--primary); 
+            color: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            text-align: center;
+        }
+        .total-box span { display: block; font-size: 0.8rem; opacity: 0.9; text-transform: uppercase; }
+        .total-box strong { font-size: 1.8rem; }
+
+        .btn-print { 
+            background: transparent; 
+            color: var(--primary); 
+            border: 2px solid var(--primary); 
+            padding: 12px; 
+            border-radius: 8px; 
+            margin-top: 20px; 
+            cursor: pointer; 
+            width: 100%; 
+            font-weight: bold;
+        }
+        .btn-print:hover { background: #edf2f7; }
+
+        /* ESTILOS DE IMPRESIÓN */
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; border: none; width: 100%; max-width: 100%; }
+            .btn-calc, .btn-print, input { display: none; }
+            .print-only { display: block !important; padding: 10px; background: #f8fafc; border-radius: 5px; font-weight: bold; }
+            .results-box { display: block !important; border: none; padding: 0; }
+            .total-box { background: #eee !important; color: black !important; border: 1px solid #000; }
+        }
+        .print-only { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="logo-container">
+            <img src="logo.png" alt="Isotipo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1914/1914406.png';">
+        </div>
+        <h1 class="company-name">Virgen del Carmen</h1>
+        <div class="subtitle">CONTROL TÉCNICO DE PRODUCCIÓN</div>
+    </div>
+
+    <div class="section-title">Datos del Muestreo</div>
+    <div class="input-group">
+        <div class="field">
+            <label>Piscina / Lote</label>
+            <input type="text" id="piscina" placeholder="Ej: Piscina 04">
+            <div class="print-only" id="p-piscina"></div>
+        </div>
+        <div class="field">
+            <label>Fecha</label>
+            <input type="date" id="fecha">
+            <div class="print-only" id="p-fecha"></div>
+        </div>
+    </div>
+
+    <div class="section-title">Parámetros de Campo</div>
+    <div class="input-group">
+        <div class="field"><label>N° de Lances</label><input type="number" id="lances" value="42"></div>
+        <div class="field"><label>Total Camarones</label><input type="number" id="captura" value="1358"></div>
+        <div class="field"><label>Área Atarraya (m²)</label><input type="number" id="areaAta" value="6.46" step="0.01"></div>
+        <div class="field"><label>Hectáreas Piscina</label><input type="number" id="ha" value="14"></div>
+        <div class="field"><label>Gramaje Prom. (g)</label><input type="number" id="gramos" value="18" step="0.1"></div>
+        <div class="field"><label>Población Inicial</label><input type="number" id="siembra" value="1700000"></div>
+    </div>
+
+    <div class="field" style="margin-bottom: 20px;">
+        <label>Precio Estimado por Libra ($)</label>
+        <input type="number" id="precio" value="2.50" step="0.01">
+    </div>
+
+    <button class="btn-calc" onclick="calcularProyecto()">GENERAR REPORTE FINAL</button>
+
+    <div class="results-box" id="resultadoFinal">
+        <div class="res-item">
+            <span class="res-label">Población Estimada:</span>
+            <span class="res-val" id="resPob"></span>
+        </div>
+        <div class="res-item">
+            <span class="res-label">Supervivencia:</span>
+            <span class="res-val" id="resSup"></span>
+        </div>
+        <div class="res-item">
+            <span class="res-label">Biomasa (Libras):</span>
+            <span class="res-val" id="resLib"></span>
+        </div>
+        
+        <div class="total-box">
+            <span>Ingreso Bruto Proyectado</span>
+            <strong id="resDolar"></strong>
+        </div>
+
+        <button class="btn-print" onclick="imprimirReporte()">📄 Descargar Reporte PDF / Imprimir</button>
+    </div>
+</div>
+
+<script>
+    // Fecha automática
+    document.getElementById('fecha').valueAsDate = new Date();
+
+    function calcularProyecto() {
+        const lances = parseFloat(document.getElementById('lances').value);
+        const captura = parseFloat(document.getElementById('captura').value);
+        const areaAta = parseFloat(document.getElementById('areaAta').value);
+        const ha = parseFloat(document.getElementById('ha').value);
+        const gramos = parseFloat(document.getElementById('gramos').value);
+        const siembra = parseFloat(document.getElementById('siembra').value);
+        const precio = parseFloat(document.getElementById('precio').value);
+
+        if(!lances || !captura || !areaAta) return alert("Por favor completa los datos de muestreo");
+
+        // Fórmulas unificadas
+        const promedioLance = captura / lances;
+        const m2Totales = ha * 10000;
+        const poblacionTotal = (promedioLance / areaAta) * m2Totales;
+        const supervivencia = (poblacionTotal / siembra) * 100;
+        const librasTotales = (poblacionTotal * gramos) / 454;
+        const ingresoDolares = librasTotales * precio;
+
+        // Mostrar resultados
+        document.getElementById('resPob').innerText = Math.round(poblacionTotal).toLocaleString() + " unidades";
+        document.getElementById('resSup').innerText = supervivencia.toFixed(2) + "%";
+        document.getElementById('resLib').innerText = Math.round(librasTotales).toLocaleString() + " Lbs";
+        document.getElementById('resDolar').innerText = "$" + ingresoDolares.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        
+        document.getElementById('resultadoFinal').style.display = 'block';
+        
+        // Animación de scroll
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function imprimirReporte() {
+        // Preparar datos para vista de impresión
+        document.getElementById('p-piscina').innerText = document.getElementById('piscina').value || "S/N";
+        document.getElementById('p-fecha').innerText = document.getElementById('fecha').value;
+        window.print();
+    }
+</script>
+
+</body>
+</html>
