@@ -6,7 +6,7 @@
     <title>Sistema Virgen del Carmen - Gestión Camaronera</title>
     <style>
         :root { 
-            --primary: #1a4a7a; 
+            --primary: #1a4a7a; /* Azul corporativo del manual */
             --secondary: #28a745; 
             --accent: #007bff;
             --bg: #f4f7f9; 
@@ -25,51 +25,66 @@
         .container { 
             background: white; 
             padding: 40px; 
-            border-radius: 15px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
             width: 100%; 
             max-width: 600px; 
             border-top: 10px solid var(--primary);
         }
 
-        /* ENCABEZADO */
+        /* ENCABEZADO Y LOGO GRANDE */
         .header { text-align: center; margin-bottom: 30px; }
-        .logo-container { margin-bottom: 15px; }
-        .logo-container img { max-width: 100px; height: auto; } /* Tamaño ideal para isotipo minimalista */
+        
+        .logo-container { 
+            margin-bottom: 20px; 
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo-container img { 
+            max-width: 280px; /* LOGO MÁS GRANDE */
+            height: auto; 
+            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.1));
+        }
+
         .company-name { 
             color: var(--primary); 
-            font-size: 1.8rem; 
+            font-size: 2rem; 
             font-weight: 800; 
-            margin: 0; 
+            margin: 10px 0 0 0; 
             text-transform: uppercase; 
             letter-spacing: 2px;
         }
-        .subtitle { font-size: 0.9rem; color: #718096; margin-top: 5px; font-weight: 500; }
 
-        /* SECCIÓN DE REGISTRO */
+        .subtitle { font-size: 1rem; color: #718096; margin-top: 5px; font-weight: 500; }
+
+        /* SECCIONES DE FORMULARIO */
         .section-title { 
-            font-size: 0.85rem; 
+            font-size: 0.9rem; 
             text-transform: uppercase; 
             color: var(--primary); 
             font-weight: bold; 
-            margin-bottom: 15px; 
-            border-bottom: 1px solid #edf2f7;
+            margin: 25px 0 15px 0; 
+            border-bottom: 2px solid #edf2f7;
             padding-bottom: 5px;
+            text-align: left;
         }
 
-        .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
         .field { text-align: left; }
-        label { font-size: 0.75rem; font-weight: bold; color: #4a5568; display: block; margin-bottom: 5px; }
+        label { font-size: 0.8rem; font-weight: bold; color: #4a5568; display: block; margin-bottom: 5px; }
+        
         input { 
             width: 100%; 
             padding: 12px; 
             border: 2px solid #edf2f7; 
-            border-radius: 8px; 
+            border-radius: 10px; 
             box-sizing: border-box; 
-            font-size: 0.95rem; 
+            font-size: 1rem; 
             transition: all 0.3s ease;
+            background: #fdfdfd;
         }
-        input:focus { border-color: var(--accent); outline: none; background: #fff; }
+        input:focus { border-color: var(--primary); outline: none; background: #fff; box-shadow: 0 0 0 3px rgba(26, 74, 122, 0.1); }
 
         /* BOTONES */
         button.btn-calc { 
@@ -78,21 +93,22 @@
             background: var(--primary); 
             color: white; 
             border: none; 
-            border-radius: 10px; 
-            font-size: 1.1rem; 
+            border-radius: 12px; 
+            font-size: 1.2rem; 
             font-weight: bold; 
             cursor: pointer; 
             transition: 0.3s;
-            margin-top: 10px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(26, 74, 122, 0.3);
         }
-        button.btn-calc:hover { background: #133558; transform: translateY(-1px); }
+        button.btn-calc:hover { background: #133558; transform: translateY(-2px); }
 
         /* RESULTADOS */
         .results-box { 
             margin-top: 35px; 
             background: #f8fafc; 
             padding: 25px; 
-            border-radius: 12px; 
+            border-radius: 15px; 
             border: 1px solid #e2e8f0;
             display: none; 
             animation: fadeIn 0.6s ease;
@@ -101,42 +117,44 @@
 
         .res-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #edf2f7; }
         .res-label { font-weight: 500; color: #4a5568; }
-        .res-val { font-weight: 800; color: var(--primary); font-size: 1.1rem; }
+        .res-val { font-weight: 800; color: var(--primary); font-size: 1.2rem; }
 
         .total-box { 
             margin-top: 20px; 
             background: var(--primary); 
             color: white; 
             padding: 20px; 
-            border-radius: 10px; 
+            border-radius: 12px; 
             text-align: center;
         }
-        .total-box span { display: block; font-size: 0.8rem; opacity: 0.9; text-transform: uppercase; }
-        .total-box strong { font-size: 1.8rem; }
+        .total-box span { display: block; font-size: 0.9rem; opacity: 0.9; text-transform: uppercase; margin-bottom: 5px; }
+        .total-box strong { font-size: 2rem; }
 
         .btn-print { 
-            background: transparent; 
+            background: #fff; 
             color: var(--primary); 
             border: 2px solid var(--primary); 
             padding: 12px; 
-            border-radius: 8px; 
+            border-radius: 10px; 
             margin-top: 20px; 
             cursor: pointer; 
             width: 100%; 
             font-weight: bold;
+            transition: 0.2s;
         }
-        .btn-print:hover { background: #edf2f7; }
+        .btn-print:hover { background: var(--primary); color: white; }
 
         /* ESTILOS DE IMPRESIÓN */
         @media print {
             body { background: white; padding: 0; }
-            .container { box-shadow: none; border: none; width: 100%; max-width: 100%; }
-            .btn-calc, .btn-print, input { display: none; }
-            .print-only { display: block !important; padding: 10px; background: #f8fafc; border-radius: 5px; font-weight: bold; }
-            .results-box { display: block !important; border: none; padding: 0; }
-            .total-box { background: #eee !important; color: black !important; border: 1px solid #000; }
+            .container { box-shadow: none; border: none; width: 100%; max-width: 100%; padding: 10px; }
+            .btn-calc, .btn-print, input, label { display: none; }
+            .print-only-block { display: block !important; margin-bottom: 10px; font-weight: bold; border-bottom: 1px solid #eee; padding: 5px; }
+            .section-title { border-bottom: 2px solid black; color: black; }
+            .results-box { display: block !important; border: 1px solid #000; background: white; }
+            .total-box { background: white !important; color: black !important; border: 2px solid #000; }
         }
-        .print-only { display: none; }
+        .print-only-block { display: none; }
     </style>
 </head>
 <body>
@@ -144,42 +162,42 @@
 <div class="container">
     <div class="header">
         <div class="logo-container">
-            <img src="logo.png" alt="Isotipo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1914/1914406.png';">
+            <img src="logo.png" alt="Logo Virgen del Carmen" onerror="this.src='https://via.placeholder.com/250x150?text=Subir+logo.png';">
         </div>
         <h1 class="company-name">Virgen del Carmen</h1>
         <div class="subtitle">CONTROL TÉCNICO DE PRODUCCIÓN</div>
     </div>
 
-    <div class="section-title">Datos del Muestreo</div>
+    <div class="section-title">Datos del Registro</div>
     <div class="input-group">
         <div class="field">
-            <label>Piscina / Lote</label>
-            <input type="text" id="piscina" placeholder="Ej: Piscina 04">
-            <div class="print-only" id="p-piscina"></div>
+            <label>Nombre de Piscina</label>
+            <div class="print-only-block" id="p-piscina"></div>
+            <input type="text" id="piscina" placeholder="Ej: Piscina #05">
         </div>
         <div class="field">
-            <label>Fecha</label>
+            <label>Fecha de Muestreo</label>
+            <div class="print-only-block" id="p-fecha"></div>
             <input type="date" id="fecha">
-            <div class="print-only" id="p-fecha"></div>
         </div>
     </div>
 
-    <div class="section-title">Parámetros de Campo</div>
+    <div class="section-title">Parámetros de Muestreo</div>
     <div class="input-group">
         <div class="field"><label>N° de Lances</label><input type="number" id="lances" value="42"></div>
         <div class="field"><label>Total Camarones</label><input type="number" id="captura" value="1358"></div>
         <div class="field"><label>Área Atarraya (m²)</label><input type="number" id="areaAta" value="6.46" step="0.01"></div>
         <div class="field"><label>Hectáreas Piscina</label><input type="number" id="ha" value="14"></div>
-        <div class="field"><label>Gramaje Prom. (g)</label><input type="number" id="gramos" value="18" step="0.1"></div>
+        <div class="field"><label>Gramaje Promedio (g)</label><input type="number" id="gramos" value="18" step="0.1"></div>
         <div class="field"><label>Población Inicial</label><input type="number" id="siembra" value="1700000"></div>
     </div>
 
-    <div class="field" style="margin-bottom: 20px;">
+    <div class="field" style="margin-top: 15px;">
         <label>Precio Estimado por Libra ($)</label>
         <input type="number" id="precio" value="2.50" step="0.01">
     </div>
 
-    <button class="btn-calc" onclick="calcularProyecto()">GENERAR REPORTE FINAL</button>
+    <button class="btn-calc" onclick="calcular()">GENERAR REPORTE</button>
 
     <div class="results-box" id="resultadoFinal">
         <div class="res-item">
@@ -191,7 +209,7 @@
             <span class="res-val" id="resSup"></span>
         </div>
         <div class="res-item">
-            <span class="res-label">Biomasa (Libras):</span>
+            <span class="res-label">Biomasa Total (Lbs):</span>
             <span class="res-val" id="resLib"></span>
         </div>
         
@@ -200,15 +218,15 @@
             <strong id="resDolar"></strong>
         </div>
 
-        <button class="btn-print" onclick="imprimirReporte()">📄 Descargar Reporte PDF / Imprimir</button>
+        <button class="btn-print" onclick="imprimir()">📄 Imprimir / Guardar PDF</button>
     </div>
 </div>
 
 <script>
-    // Fecha automática
+    // Fecha hoy por defecto
     document.getElementById('fecha').valueAsDate = new Date();
 
-    function calcularProyecto() {
+    function calcular() {
         const lances = parseFloat(document.getElementById('lances').value);
         const captura = parseFloat(document.getElementById('captura').value);
         const areaAta = parseFloat(document.getElementById('areaAta').value);
@@ -217,32 +235,26 @@
         const siembra = parseFloat(document.getElementById('siembra').value);
         const precio = parseFloat(document.getElementById('precio').value);
 
-        if(!lances || !captura || !areaAta) return alert("Por favor completa los datos de muestreo");
+        if(!lances || !captura) return alert("Por favor complete los datos");
 
-        // Fórmulas unificadas
         const promedioLance = captura / lances;
-        const m2Totales = ha * 10000;
-        const poblacionTotal = (promedioLance / areaAta) * m2Totales;
+        const poblacionTotal = (promedioLance / areaAta) * (ha * 10000);
         const supervivencia = (poblacionTotal / siembra) * 100;
         const librasTotales = (poblacionTotal * gramos) / 454;
-        const ingresoDolares = librasTotales * precio;
+        const ingresos = librasTotales * precio;
 
-        // Mostrar resultados
-        document.getElementById('resPob').innerText = Math.round(poblacionTotal).toLocaleString() + " unidades";
-        document.getElementById('resSup').innerText = supervivencia.toFixed(2) + "%";
-        document.getElementById('resLib').innerText = Math.round(librasTotales).toLocaleString() + " Lbs";
-        document.getElementById('resDolar').innerText = "$" + ingresoDolares.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById('resPob').innerText = Math.round(poblacionTotal).toLocaleString() + " cam.";
+        document.getElementById('resSup').innerText = supervivencia.toFixed(1) + "%";
+        document.getElementById('resLib').innerText = Math.round(librasTotales).toLocaleString() + " Lib.";
+        document.getElementById('resDolar').innerText = "$" + ingresos.toLocaleString(undefined, {minimumFractionDigits: 2});
         
         document.getElementById('resultadoFinal').style.display = 'block';
-        
-        // Animación de scroll
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
-    function imprimirReporte() {
-        // Preparar datos para vista de impresión
-        document.getElementById('p-piscina').innerText = document.getElementById('piscina').value || "S/N";
-        document.getElementById('p-fecha').innerText = document.getElementById('fecha').value;
+    function imprimir() {
+        document.getElementById('p-piscina').innerText = "Piscina: " + (document.getElementById('piscina').value || "S/N");
+        document.getElementById('p-fecha').innerText = "Fecha: " + document.getElementById('fecha').value;
         window.print();
     }
 </script>
