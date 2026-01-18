@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Virgen del Carmen - Gestión Camaronera</title>
+    <title>Calculadora Virgen del Carmen</title>
     <style>
         :root { 
             --primary: #1a4a7a; 
@@ -32,7 +32,6 @@
             border-top: 10px solid var(--primary);
         }
 
-        /* ENCABEZADO Y LOGO */
         .header { text-align: center; margin-bottom: 30px; }
         
         .logo-container { 
@@ -56,9 +55,9 @@
             letter-spacing: 1px;
         }
 
-        .subtitle { font-size: 1rem; color: #718096; margin-top: 5px; font-weight: 500; }
+        /* SUBTÍTULO ACTUALIZADO */
+        .subtitle { font-size: 1.1rem; color: #4a5568; margin-top: 5px; font-weight: 600; text-transform: uppercase; }
 
-        /* SECCIONES DEL FORMULARIO */
         .section-title { 
             font-size: 0.85rem; 
             text-transform: uppercase; 
@@ -100,7 +99,6 @@
         }
         button.btn-calc:hover { background: #133558; transform: translateY(-2px); }
 
-        /* RESULTADOS */
         .results-box { 
             margin-top: 35px; 
             background: #f8fafc; 
@@ -138,7 +136,6 @@
             font-weight: bold;
         }
 
-        /* TEXTO DE PROPIEDAD INFERIOR */
         .property-tag {
             text-align: center;
             font-size: 0.7rem;
@@ -149,7 +146,6 @@
             font-weight: bold;
         }
 
-        /* IMPRESIÓN */
         @media print {
             body { background: white; padding: 0; }
             .container { box-shadow: none; border: none; width: 100%; max-width: 100%; }
@@ -167,10 +163,10 @@
 <div class="container">
     <div class="header">
         <div class="logo-container">
-            <img src="logo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/250x150?text=Logo+Virgen+del+Carmen';">
+            <img src="logo.png" alt="Logo Virgen del Carmen" onerror="this.src='https://via.placeholder.com/250x150?text=Logo+Virgen+del+Carmen';">
         </div>
         <h1 class="company-name">Virgen del Carmen</h1>
-        <div class="subtitle">CONTROL TÉCNICO DE PRODUCCIÓN</div>
+        <div class="subtitle">Calculadora de población</div>
     </div>
 
     <div class="section-title">Información del Reporte</div>
@@ -202,7 +198,7 @@
         <input type="number" id="precio" value="2.50" step="0.01">
     </div>
 
-    <button class="btn-calc" onclick="calcular()">GENERAR REPORTE DE PRODUCCIÓN</button>
+    <button class="btn-calc" onclick="calcular()">GENERAR REPORTE</button>
 
     <div class="results-box" id="resultadoFinal">
         <div class="res-item">
