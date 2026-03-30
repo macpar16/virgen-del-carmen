@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Virgen del Carmen - Auditoría v4</title>
+    <title>Sistema Virgen del Carmen - Auditoría v5 (Móvil)</title>
     <style>
         :root { 
             --primary: #1a4a7a; 
@@ -38,125 +38,119 @@
             text-align: left; letter-spacing: 1px;
         }
 
-        .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        /* --- GRILLA DE ENTRADAS (RESPONSIVA) --- */
+        .input-group { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; /* 2 columnas por defecto */
+            gap: 12px; 
+        }
         .field { display: flex; flex-direction: column; margin-bottom: 10px; text-align: left;}
-        label { font-size: 0.75rem; font-weight: bold; margin-bottom: 4px; color: #4a5568; }
-        input { padding: 10px; border: 2px solid var(--border); border-radius: 8px; font-size: 0.95rem; background: #fdfdfd;}
+        label { font-size: 0.75rem; font-weight: bold; margin-bottom: 4px; color: #4a5568; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        input { padding: 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 1rem; background: #fdfdfd; -webkit-appearance: none;} /* Altura de input mejorada para táctil */
         input:focus { border-color: var(--primary); outline: none; background: white; box-shadow: 0 0 0 3px rgba(26, 74, 122, 0.1);}
 
         /* --- ESTILOS BARRA DE ERROR MEJORADA --- */
         .slider-section { 
-            grid-column: 1 / -1; 
+            grid-column: 1 / -1; /* Ocupa todo el ancho siempre */
             background: #f8fafc; 
             padding: 15px;
             border-radius: 12px; 
             margin-top: 10px;
             border: 1px solid var(--border);
             box-sizing: border-box;
-            width: 100%; /* Asegura ocupar todo el ancho */
+            width: 100%; 
         }
         .slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .slider-title { font-size: 0.7rem; font-weight: bold; color: #4a5568; text-transform: uppercase; letter-spacing: 0.5px;}
         .error-val { font-weight: bold; color: var(--danger); font-size: 1.1rem; }
         
-        /* Contenedor para centrar y contener la barra */
-        .slider-control-wrapper {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 5px 0; /* Espacio vertical para el botón */
-        }
-
-        /* Reset de estilos nativos */
-        input[type=range] { 
-            -webkit-appearance: none; appearance: none;
-            width: 100%; /* Ocupa el ancho del wrapper */
-            background: transparent; /* Fondo transparente para ver la pista custom */
-            margin: 0; padding: 0; border: none; /* Reset márgenes */
-            cursor: pointer;
-        }
-
-        /* Estilos de la Pista (Track) - FINA Y BONITA */
-        /* Webkit (Chrome, Safari, Edge, Opera) */
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%; height: 3px; /* Muy fina */
-            cursor: pointer; background: #e2e8f0; border-radius: 3px;
-        }
-        /* Firefox */
-        input[type=range]::-moz-range-track {
-            width: 100%; height: 3px;
-            cursor: pointer; background: #e2e8f0; border-radius: 3px;
-        }
-
-        /* Estilos del Botón (Thumb) - MINIMALISTA Y ELEGANTE */
-        /* Webkit */
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; appearance: none;
-            height: 16px; width: 16px; /* Tamaño elegante */
-            border-radius: 50%; background: var(--primary);
-            cursor: pointer; margin-top: -6.5px; /* Centrado vertical: (track_height/2) - (thumb_height/2) */
-            border: 2px solid white; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.1);
-            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-        }
-        input[type=range]:hover::-webkit-slider-thumb {
-            background: #2c6cb0; transform: scale(1.1);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        /* Firefox */
-        input[type=range]::-moz-range-thumb {
-            height: 16px; width: 16px;
-            border-radius: 50%; background: var(--primary);
-            cursor: pointer; border: 2px solid white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-            transition: background 0.2s, transform 0.2s;
-        }
-        input[type=range]:hover::-moz-range-thumb {
-            background: #2c6cb0; transform: scale(1.1);
-        }
-
+        .slider-control-wrapper { width: 100%; display: flex; justify-content: center; align-items: center; padding: 5px 0; }
+        input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; background: transparent; margin: 0; padding: 0; border: none; cursor: pointer; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 3px; cursor: pointer; background: #e2e8f0; border-radius: 3px; }
+        input[type=range]::-moz-range-track { width: 100%; height: 3px; cursor: pointer; background: #e2e8f0; border-radius: 3px; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; height: 18px; width: 18px; border-radius: 50%; background: var(--primary); cursor: pointer; margin-top: -7.5px; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.15); transition: background 0.2s, transform 0.2s; }
+        input[type=range]:hover::-webkit-slider-thumb { background: #2c6cb0; transform: scale(1.1); }
+        input[type=range]::-moz-range-thumb { height: 18px; width: 18px; border-radius: 50%; background: var(--primary); cursor: pointer; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
         .slider-info { font-size: 0.6rem; color: #718096; margin-top: 5px; text-align: left; }
-        /* ------------------------------------------- */
 
-        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 25px; }
+        /* --- GRUPO DE BOTONES (RESPONSIVO) --- */
+        .btn-group { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; /* 2 columnas por defecto */
+            gap: 10px; 
+            margin-top: 25px; 
+        }
         button { 
-            padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; 
-            transition: all 0.2s; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;
+            padding: 16px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; 
+            transition: all 0.2s; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;
         }
         .btn-calc { background: var(--primary); color: white; box-shadow: 0 2px 4px rgba(26, 74, 122, 0.2);}
         .btn-save { background: var(--success); color: white; box-shadow: 0 2px 4px rgba(56, 161, 105, 0.2);}
         button:hover { opacity: 0.95; transform: translateY(-1px); box-shadow: 0 4px 6px rgba(0,0,0,0.1);}
-        button:active { transform: translateY(0); box-shadow: 0 2px 4px rgba(0,0,0,0.1);}
 
-        /* Tabla de Historial */
+        /* --- TABLA DE HISTORIAL (CORRECCIÓN MÓVIL) --- */
         .history-section { width: 100%; max-width: 700px; margin-top: 35px; box-sizing: border-box;}
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; font-size: 0.85rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05);}
-        th { background: var(--primary); color: white; padding: 14px 12px; text-align: left; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px;}
-        td { padding: 12px; border-bottom: 1px solid var(--border); }
-        tr:last-child td { border-bottom: none; }
-        tr:hover td { background-color: #f8fafc; }
-        .btn-delete { color: var(--danger); border: none; background: none; cursor: pointer; font-weight: bold; font-size: 0.75rem; padding: 0;}
-        .btn-delete:hover { text-decoration: underline; }
-
-        .results-preview { 
-            margin-top: 25px; padding: 20px; background: #edf2f7; border-radius: 15px; display: none; 
-            text-align: center; border: 2px dashed var(--primary); animation: fadeIn 0.4s;
+        
+        /* Contenedor para scroll horizontal en móvil */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            background: white;
+            border: 1px solid var(--border);
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .property-tag { margin-top: 40px; font-size: 0.7rem; color: #a0aec0; text-transform: uppercase; font-weight: bold; text-align: center; letter-spacing: 1px;}
+        table { width: 100%; border-collapse: collapse; min-width: 500px; font-size: 0.85rem; } /* min-width asegura que scrollee */
+        th { background: var(--primary); color: white; padding: 14px 10px; text-align: left; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; white-space: nowrap;}
+        td { padding: 12px 10px; border-bottom: 1px solid var(--border); }
+        .btn-delete { color: var(--danger); border: none; background: none; cursor: pointer; font-weight: bold; font-size: 0.75rem; padding: 0;}
 
+        .results-preview { margin-top: 25px; padding: 20px; background: #edf2f7; border-radius: 15px; display: none; text-align: center; border: 2px dashed var(--primary); }
+        .property-tag { margin-top: 40px; font-size: 0.7rem; color: #a0aec0; text-transform: uppercase; font-weight: bold; text-align: center; letter-spacing: 1px; padding-bottom: 20px;}
+
+        /* --- BOTÓN IMPRIMIR ESTILIZADO --- */
+        .btn-print-outer {
+            margin-top: 25px; width: 100%; padding: 16px; background: #fff; border: 2px solid var(--primary); color: var(--primary); 
+            font-weight: bold; border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 1rem; 
+            display: flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase;
+        }
+        .btn-print-outer:hover { background: var(--primary); color: white; }
+
+        /* =========================================
+           MEDIA QUERIES (AJUSTES PARA MÓVIL)
+           ========================================= */
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .container { padding: 20px 15px; border-radius: 15px; }
+            .company-name { font-size: 1.3rem; }
+            .subtitle { font-size: 0.85rem; }
+            
+            /* Cambiar grillas a UNA SOLA COLUMNA en vertical */
+            .input-group, .btn-group { grid-template-columns: 1fr; gap: 10px; }
+            
+            label { font-size: 0.7rem; }
+            input { padding: 10px; font-size: 0.95rem; }
+            button { padding: 14px; font-size: 0.9rem; }
+            
+            .slider-header { flex-direction: column; align-items: flex-start; gap: 3px; }
+            .error-val { font-size: 1rem; }
+            
+            #previewResult { font-size: 1.5rem; }
+            #previewLbs { font-size: 0.95rem; }
+        }
+
+        /* ESTILOS DE IMPRESIÓN (Mantenidos y optimizados) */
         @media print {
-            .container, .btn-group, .slider-section, .btn-delete, .field input, .property-tag { display: none !important; }
+            .container, .btn-group, .slider-section, .btn-delete, .field input, .property-tag, .btn-print-outer { display: none !important; }
             body { background: white; padding: 0; }
             .history-section { display: block !important; width: 100%; margin-top: 0;}
             .print-header { display: block !important; text-align: center; margin-bottom: 25px; border-bottom: 2px solid black; padding-bottom: 10px;}
-            table { border: 1px solid #000; font-size: 0.75rem; width: 100%; border-collapse: collapse; box-shadow: none;}
+            .table-responsive { overflow: visible; box-shadow: none; border: none; }
+            table { border: 1px solid #000; font-size: 0.75rem; width: 100%; border-collapse: collapse; min-width: 100%;}
             th, td { border: 1px solid #000; color: black !important; padding: 6px; text-align: left; }
-            th { background-color: #eee !important; color: black !important; text-transform: uppercase;}
-            tr:hover td { background-color: transparent; }
+            th { background-color: #eee !important; color: black !important;}
         }
         .print-header { display: none; }
     </style>
@@ -180,12 +174,12 @@
 
     <div class="section-title">Datos de Campo</div>
     <div class="input-group">
-        <div class="field"><label>N° Lances</label><input type="number" id="lances" value="42"></div>
-        <div class="field"><label>Camarones Capturados</label><input type="number" id="captura" value="1358"></div>
-        <div class="field"><label>Área Atarraya (m²)</label><input type="number" id="areaAta" value="6.46" step="0.01"></div>
-        <div class="field"><label>Hectáreas Piscina</label><input type="number" id="ha" value="14"></div>
-        <div class="field"><label>Gramaje Promedio (g)</label><input type="number" id="gramos" value="18" step="0.1"></div>
-        <div class="field"><label>Población Sembrada</label><input type="number" id="siembra" value="1700000"></div>
+        <div class="field"><label>N° Lances</label><input type="number" id="lances" value="42" inputmode="numeric"></div>
+        <div class="field"><label>Camarones Capturados</label><input type="number" id="captura" value="1358" inputmode="numeric"></div>
+        <div class="field"><label>Área Atarraya (m²)</label><input type="number" id="areaAta" value="6.46" step="0.01" inputmode="decimal"></div>
+        <div class="field"><label>Hectáreas Piscina</label><input type="number" id="ha" value="14" inputmode="decimal"></div>
+        <div class="field"><label>Gramaje Promedio (g)</label><input type="number" id="gramos" value="18" step="0.1" inputmode="decimal"></div>
+        <div class="field"><label>Población Sembrada</label><input type="number" id="siembra" value="1700000" inputmode="numeric"></div>
 
         <div class="slider-section">
             <div class="slider-header">
@@ -218,22 +212,25 @@
         <p id="print-date" style="font-size: 0.75rem; margin-top: 8px; color: #4a5568;"></p>
     </div>
     <div class="section-title">Resumen de Registros Consolidados</div>
-    <table id="tablaHistorial">
-        <thead>
-            <tr>
-                <th>Piscina</th>
-                <th>Fecha</th>
-                <th>Error %</th>
-                <th>Población Est.</th>
-                <th>Biomasa (Lbs)</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody id="historialBody">
-            </tbody>
-    </table>
     
-    <button onclick="window.print()" style="margin-top: 25px; width: 100%; padding: 15px; background: #fff; border: 2px solid var(--primary); color: var(--primary); font-weight: bold; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+    <div class="table-responsive">
+        <table id="tablaHistorial">
+            <thead>
+                <tr>
+                    <th>Piscina</th>
+                    <th>Fecha</th>
+                    <th>Error %</th>
+                    <th>Población Est.</th>
+                    <th>Biomasa (Lbs)</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="historialBody">
+                </tbody>
+        </table>
+    </div>
+    
+    <button class="btn-print-outer" onclick="window.print()">
         <span>📄</span> DESCARGAR REPORTE CONSOLIDADO (PDF)
     </button>
 </div>
@@ -263,18 +260,27 @@
         const a = parseFloat(document.getElementById('areaAta').value) || 1; // Evitar división por cero
         const h = parseFloat(document.getElementById('ha').value) || 0;
         const g = parseFloat(document.getElementById('gramos').value) || 0;
+        const s = parseFloat(document.getElementById('siembra').value) || 0;
         const error = parseFloat(document.getElementById('margenError').value) || 0;
 
+        // Validación básica
         if (l <= 0 || c <= 0 || h <= 0) return null;
 
-        const promedio = c / l;
-        const poblacionBruta = (promedio / a) * (h * 10000);
+        const promedioLance = c / l;
+        const poblacionBrutaHA = promedioLance / a;
+        const poblacionBrutaTotal = poblacionBrutaHA * (h * 10000);
         
-        // APLICACIÓN DEL MARGEN DE ERROR CORREGIDA (Resta el % indicado, rango 0-100)
+        // APLICACIÓN DEL MARGEN DE ERROR (Resta el % indicado, rango 0-100)
         const factorSeguridad = (100 - error) / 100;
-        const poblacionFinal = poblacionBruta * factorSeguridad;
+        const poblacionFinal = poblacionBrutaTotal * factorSeguridad;
         
         const libras = (poblacionFinal * g) / 454;
+        
+        // Supervivencia estimada (para mostrar en tabla consolidada)
+        let supervivencia = 0;
+        if(s > 0) {
+            supervivencia = (poblacionFinal / s) * 100;
+        }
 
         // Formatear fecha para mostrar
         const fechaInput = document.getElementById('fecha').value;
@@ -285,8 +291,10 @@
             piscina: document.getElementById('piscina').value || "S/N",
             fecha: fechaFormateada,
             error: error + "%",
+            pobBruta: Math.round(poblacionBrutaTotal),
             pob: Math.round(poblacionFinal),
-            lbs: Math.round(libras)
+            lbs: Math.round(libras),
+            sup: supervivencia.toFixed(1) + "%"
         };
     }
 
@@ -294,19 +302,22 @@
     function calcularVistaPrevia() {
         const datos = obtenerCalculos();
         if (!datos) {
-            alert("Por favor rellena correctamente los campos obligatorios:\n- Piscina\n- N° Lances\n- Camarones Capturados\n- Hectáreas");
+            alert("Por favor rellena correctamente los campos obligatorios de campo:\n- N° Lances\n- Camarones Capturados\n- Hectáreas");
             return;
         }
         document.getElementById('previewResult').innerText = datos.pob.toLocaleString('es-ES') + " Camarones";
         document.getElementById('previewLbs').innerText = "Biomasa Proyectada: " + datos.lbs.toLocaleString('es-ES') + " Lbs";
         document.getElementById('preview').style.display = 'block';
+        
+        // Scroll suave hasta la vista previa
+        document.getElementById('preview').scrollIntoView({ behavior: 'smooth' });
     }
 
     // Guarda el cálculo actual en la tabla inferior y limpia la vista previa
     function guardarHistorial() {
         const datos = obtenerCalculos();
         if (!datos) {
-            alert("Rellena y calcula los datos antes de guardar.");
+            alert("Rellena y calcula los datos de campo antes de guardar.");
             return;
         }
         historial.push(datos);
@@ -319,7 +330,7 @@
 
     // Elimina un registro específico
     function eliminarRegistro(index) {
-        if (confirm("¿Estás seguro de eliminar este registro de la auditoría?")) {
+        if (confirm("¿Estás seguro de eliminar este registro de la auditoría consolidada?")) {
             historial.splice(index, 1);
             renderizarTabla();
         }
@@ -330,14 +341,19 @@
         const body = document.getElementById('historialBody');
         body.innerHTML = "";
         
+        if(historial.length === 0) {
+            body.innerHTML = "<tr><td colspan='6' style='text-align:center; color:#718096;'>No hay registros guardados en esta sesión.</td></tr>";
+            return;
+        }
+
         historial.forEach((item, index) => {
             const row = `<tr>
-                <td style="font-weight:600; color:var(--primary);">${item.piscina}</td>
-                <td>${item.fecha}</td>
+                <td style="font-weight:600; color:var(--primary); white-space:nowrap;">${item.piscina}</td>
+                <td style="white-space:nowrap;">${item.fecha}</td>
                 <td style="color: var(--danger); font-weight:bold;">${item.error}</td>
-                <td><strong>${item.pob.toLocaleString('es-ES')}</strong></td>
+                <td><strong>${item.pob.toLocaleString('es-ES')}</strong> <span style="font-size:0.7rem; color:#718096;">(Sup: ${item.sup})</span></td>
                 <td style="font-weight:600;">${item.lbs.toLocaleString('es-ES')}</td>
-                <td><button class="btn-delete" onclick="eliminarRegistro(${index})">✕ Eliminar</button></td>
+                <td style="text-align:center;"><button class="btn-delete" onclick="eliminarRegistro(${index})">✕</button></td>
             </tr>`;
             body.innerHTML += row;
         });
@@ -346,6 +362,9 @@
         const ahora = new Date();
         document.getElementById('print-date').innerText = "Reporte auditado el: " + ahora.toLocaleDateString('es-ES') + " a las " + ahora.toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'});
     }
+    
+    // Inicializar tabla vacía al cargar
+    renderizarTabla();
 </script>
 
 </body>
