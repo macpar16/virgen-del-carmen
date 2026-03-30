@@ -3,159 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Virgen del Carmen</title>
+    <title>Sistema Virgen del Carmen - Auditoría</title>
     <style>
         :root { 
             --primary: #1a4a7a; 
-            --secondary: #28a745; 
             --bg: #f4f7f9; 
             --text: #2d3748;
+            --danger: #e53e3e;
+            --success: #38a169;
         }
         
         body { 
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
             background-color: var(--bg); 
-            display: flex; 
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            color: var(--text);
+            display: flex; flex-direction: column; align-items: center; padding: 20px; color: var(--text);
         }
 
         .container { 
-            background: white; 
-            padding: 40px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
-            width: 100%; 
-            max-width: 600px; 
-            border-top: 10px solid var(--primary);
+            background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            width: 100%; max-width: 700px; border-top: 10px solid var(--primary);
         }
 
-        .header { text-align: center; margin-bottom: 30px; }
-        
-        .logo-container { 
-            margin-bottom: 20px; 
-            display: flex;
-            justify-content: center;
-        }
-
-        .logo-container img { 
-            max-width: 250px; 
-            height: auto; 
-            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.05));
-        }
-
-        .company-name { 
-            color: var(--primary); 
-            font-size: 1.8rem; 
-            font-weight: 800; 
-            margin: 10px 0 0 0; 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-        }
-
-        /* SUBTÍTULO ACTUALIZADO */
-        .subtitle { font-size: 1.1rem; color: #4a5568; margin-top: 5px; font-weight: 600; text-transform: uppercase; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .logo-container img { max-width: 220px; height: auto; }
+        .company-name { color: var(--primary); font-size: 1.6rem; font-weight: 800; text-transform: uppercase; margin: 5px 0; }
+        .subtitle { font-size: 1rem; color: #718096; font-weight: 600; text-transform: uppercase; }
 
         .section-title { 
-            font-size: 0.85rem; 
-            text-transform: uppercase; 
-            color: var(--primary); 
-            font-weight: bold; 
-            margin: 25px 0 15px 0; 
-            border-bottom: 2px solid #edf2f7;
-            padding-bottom: 5px;
-            text-align: left;
+            font-size: 0.8rem; text-transform: uppercase; color: var(--primary); font-weight: bold; 
+            margin: 20px 0 10px 0; border-bottom: 2px solid #edf2f7; padding-bottom: 5px;
         }
 
-        .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        .field { text-align: left; }
-        label { font-size: 0.75rem; font-weight: bold; color: #4a5568; display: block; margin-bottom: 5px; }
-        
-        input { 
-            width: 100%; 
-            padding: 12px; 
-            border: 2px solid #edf2f7; 
-            border-radius: 10px; 
-            box-sizing: border-box; 
-            font-size: 1rem; 
-            background: #fdfdfd;
+        .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .field { display: flex; flex-direction: column; margin-bottom: 10px; }
+        label { font-size: 0.75rem; font-weight: bold; margin-bottom: 4px; color: #4a5568; }
+        input { padding: 10px; border: 2px solid #edf2f7; border-radius: 8px; font-size: 0.95rem; }
+        input:focus { border-color: var(--primary); outline: none; }
+
+        /* Estilo Slider Margen de Error */
+        .slider-container { background: #f1f5f9; padding: 15px; border-radius: 12px; margin: 15px 0; }
+        .slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .error-val { font-weight: bold; color: var(--danger); font-size: 1.1rem; }
+        input[type=range] { width: 100%; cursor: pointer; }
+
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        button { 
+            padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; 
+            transition: 0.3s; font-size: 0.9rem;
         }
-        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(26, 74, 122, 0.1); }
+        .btn-calc { background: var(--primary); color: white; }
+        .btn-save { background: var(--success); color: white; }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
 
-        button.btn-calc { 
-            width: 100%; 
-            padding: 18px; 
-            background: var(--primary); 
-            color: white; 
-            border: none; 
-            border-radius: 12px; 
-            font-size: 1.1rem; 
-            font-weight: bold; 
-            cursor: pointer; 
-            transition: 0.3s;
-            margin-top: 20px;
-        }
-        button.btn-calc:hover { background: #133558; transform: translateY(-2px); }
+        /* Tabla de Historial */
+        .history-section { width: 100%; max-width: 700px; margin-top: 30px; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; font-size: 0.85rem; }
+        th { background: var(--primary); color: white; padding: 12px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #edf2f7; }
+        .btn-delete { color: var(--danger); border: none; background: none; cursor: pointer; font-weight: bold; }
 
-        .results-box { 
-            margin-top: 35px; 
-            background: #f8fafc; 
-            padding: 25px; 
-            border-radius: 15px; 
-            border: 1px solid #e2e8f0;
-            display: none; 
-            animation: fadeIn 0.5s ease forwards;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .res-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #edf2f7; }
-        .res-val { font-weight: 800; color: var(--primary); font-size: 1.1rem; }
-
-        .total-box { 
-            margin-top: 20px; 
-            background: var(--primary); 
-            color: white; 
-            padding: 20px; 
-            border-radius: 12px; 
-            text-align: center;
-        }
-        .total-box span { display: block; font-size: 0.85rem; opacity: 0.9; text-transform: uppercase; margin-bottom: 5px; }
-        .total-box strong { font-size: 1.8rem; }
-
-        .btn-print { 
-            background: #fff; 
-            color: var(--primary); 
-            border: 2px solid var(--primary); 
-            padding: 12px; 
-            border-radius: 10px; 
-            margin-top: 20px; 
-            cursor: pointer; 
-            width: 100%; 
-            font-weight: bold;
+        .results-preview { 
+            margin-top: 20px; padding: 20px; background: #e2e8f0; border-radius: 12px; display: none; 
+            text-align: center; border: 2px dashed var(--primary);
         }
 
-        .property-tag {
-            text-align: center;
-            font-size: 0.7rem;
-            color: #718096;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 25px;
-            font-weight: bold;
-        }
+        .property-tag { margin-top: 30px; font-size: 0.7rem; color: #a0aec0; text-transform: uppercase; font-weight: bold; }
 
         @media print {
+            .container, .btn-group, .slider-container, .btn-delete, .field input { display: none !important; }
             body { background: white; padding: 0; }
-            .container { box-shadow: none; border: none; width: 100%; max-width: 100%; }
-            .btn-calc, .btn-print, input, label { display: none; }
-            .print-only-block { display: block !important; margin-bottom: 10px; font-weight: bold; border-bottom: 1px solid #eee; padding: 5px; }
-            .results-box { display: block !important; border: 1px solid #000; background: white; }
-            .total-box { background: white !important; color: black !important; border: 2px solid #000; }
-            .property-tag { color: black; margin-top: 50px; }
+            .history-section { display: block !important; width: 100%; }
+            .print-header { display: block !important; text-align: center; margin-bottom: 20px; }
+            table { border: 1px solid #000; font-size: 0.7rem; }
+            th, td { border: 1px solid #000; color: black !important; }
         }
-        .print-only-block { display: none; }
+        .print-header { display: none; }
     </style>
 </head>
 <body>
@@ -163,99 +85,146 @@
 <div class="container">
     <div class="header">
         <div class="logo-container">
-            <img src="logo.png" alt="Logo Virgen del Carmen" onerror="this.src='https://via.placeholder.com/250x150?text=Logo+Virgen+del+Carmen';">
+            <img src="logo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/200x100?text=Logo+Virgen+del+Carmen';">
         </div>
         <h1 class="company-name">Virgen del Carmen</h1>
         <div class="subtitle">Calculadora de población</div>
     </div>
 
-    <div class="section-title">Información del Reporte</div>
     <div class="input-group">
-        <div class="field">
-            <label>Piscina / Lote</label>
-            <div class="print-only-block" id="p-piscina"></div>
-            <input type="text" id="piscina" placeholder="Ej: Piscina #05">
-        </div>
-        <div class="field">
-            <label>Fecha del Muestreo</label>
-            <div class="print-only-block" id="p-fecha"></div>
-            <input type="date" id="fecha">
-        </div>
+        <div class="field"><label>Piscina</label><input type="text" id="piscina" placeholder="Piscina #"></div>
+        <div class="field"><label>Fecha</label><input type="date" id="fecha"></div>
     </div>
 
-    <div class="section-title">Variables de Campo</div>
+    <div class="slider-container">
+        <div class="slider-header">
+            <label>Margen de Error (Seguridad)</label>
+            <span class="error-val" id="errorLabel">0%</span>
+        </div>
+        <input type="range" id="margenError" min="0" max="100" value="0" oninput="updateErrorLabel(this.value)">
+        <p style="font-size: 0.65rem; color: #64748b; margin-top: 5px;">*Este % se restará de la población estimada total.</p>
+    </div>
+
+    <div class="section-title">Datos de Campo</div>
     <div class="input-group">
-        <div class="field"><label>N° de Lances</label><input type="number" id="lances" value="42"></div>
-        <div class="field"><label>Total Camarones</label><input type="number" id="captura" value="1358"></div>
-        <div class="field"><label>Área Atarraya (m²)</label><input type="number" id="areaAta" value="6.46" step="0.01"></div>
-        <div class="field"><label>Hectáreas Piscina</label><input type="number" id="ha" value="14"></div>
-        <div class="field"><label>Gramaje Promedio (g)</label><input type="number" id="gramos" value="18" step="0.1"></div>
-        <div class="field"><label>Población Sembrada</label><input type="number" id="siembra" value="1700000"></div>
+        <div class="field"><label>N° Lances</label><input type="number" id="lances" value="42"></div>
+        <div class="field"><label>Camarones</label><input type="number" id="captura" value="1358"></div>
+        <div class="field"><label>Área Atarraya</label><input type="number" id="areaAta" value="6.46" step="0.01"></div>
+        <div class="field"><label>Hectáreas</label><input type="number" id="ha" value="14"></div>
+        <div class="field"><label>Gramaje (g)</label><input type="number" id="gramos" value="18" step="0.1"></div>
+        <div class="field"><label>Siembra</label><input type="number" id="siembra" value="1700000"></div>
     </div>
 
-    <div class="field" style="margin-top: 15px;">
-        <label>Precio de Mercado por Libra ($)</label>
-        <input type="number" id="precio" value="2.50" step="0.01">
+    <div class="btn-group">
+        <button class="btn-calc" onclick="calcularVista Previa()">CALCULAR</button>
+        <button class="btn-save" onclick="guardarHistorial()">GUARDAR REGISTRO</button>
     </div>
 
-    <button class="btn-calc" onclick="calcular()">GENERAR REPORTE</button>
-
-    <div class="results-box" id="resultadoFinal">
-        <div class="res-item">
-            <span class="res-label">Población Estimada:</span>
-            <span class="res-val" id="resPob"></span>
-        </div>
-        <div class="res-item">
-            <span class="res-label">Tasa de Supervivencia:</span>
-            <span class="res-val" id="resSup"></span>
-        </div>
-        <div class="res-item">
-            <span class="res-label">Biomasa Proyectada:</span>
-            <span class="res-val" id="resLib"></span>
-        </div>
-        
-        <div class="total-box">
-            <span>Ingreso Económico Estimado</span>
-            <strong id="resDolar"></strong>
-        </div>
-
-        <button class="btn-print" onclick="imprimir()">📄 Exportar PDF / Imprimir</button>
+    <div id="preview" class="results-preview">
+        <div style="font-size: 0.8rem; font-weight: bold; color: var(--primary);">ESTIMACIÓN ACTUAL (CON ERROR)</div>
+        <div id="previewResult" style="font-size: 1.5rem; font-weight: 800; margin: 10px 0;">-</div>
+        <div id="previewLbs" style="font-size: 0.9rem;">-</div>
     </div>
+</div>
+
+<div class="history-section">
+    <div class="print-header">
+        <h2 style="margin:0;">REPORTE CONSOLIDADO - VIRGEN DEL CARMEN</h2>
+        <p id="print-date" style="font-size: 0.8rem;"></p>
+    </div>
+    <div class="section-title">Historial y Resumen de Registros</div>
+    <table id="tablaHistorial">
+        <thead>
+            <tr>
+                <th>Piscina</th>
+                <th>Error</th>
+                <th>Población</th>
+                <th>Biomasa (Lbs)</th>
+                <th>Superviv.</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody id="historialBody">
+            </tbody>
+    </table>
+    
+    <button onclick="window.print()" style="margin-top: 15px; width: 100%; padding: 12px; background: #fff; border: 2px solid var(--primary); color: var(--primary); font-weight: bold; border-radius: 8px; cursor: pointer;">
+        📄 DESCARGAR INFORME CONSOLIDADO (PDF)
+    </button>
 </div>
 
 <div class="property-tag">Propiedad de camaronera Virgen del Carmen</div>
 
 <script>
     document.getElementById('fecha').valueAsDate = new Date();
+    let historial = [];
 
-    function calcular() {
+    function updateErrorLabel(val) {
+        document.getElementById('errorLabel').innerText = val + "%";
+        calcularVistaPrevia(); // Actualiza el cálculo en vivo mientras mueves la barra
+    }
+
+    function obtenerCalculos() {
         const l = parseFloat(document.getElementById('lances').value);
         const c = parseFloat(document.getElementById('captura').value);
         const a = parseFloat(document.getElementById('areaAta').value);
         const h = parseFloat(document.getElementById('ha').value);
         const g = parseFloat(document.getElementById('gramos').value);
         const s = parseFloat(document.getElementById('siembra').value);
-        const p = parseFloat(document.getElementById('precio').value);
+        const error = parseFloat(document.getElementById('margenError').value);
 
         const promedio = c / l;
-        const poblacion = (promedio / a) * (h * 10000);
-        const supervivencia = (poblacion / s) * 100;
-        const libras = (poblacion * g) / 454;
-        const ingresos = libras * p;
+        const poblacionBruta = (promedio / a) * (h * 10000);
+        // APLICACIÓN DEL MARGEN DE ERROR
+        const poblacionFinal = poblacionBruta * (1 - (error / 100));
+        const supervivencia = (poblacionFinal / s) * 100;
+        const libras = (poblacionFinal * g) / 454;
 
-        document.getElementById('resPob').innerText = Math.round(poblacion).toLocaleString() + " cam.";
-        document.getElementById('resSup').innerText = supervivencia.toFixed(1) + "%";
-        document.getElementById('resLib').innerText = Math.round(libras).toLocaleString() + " Lbs.";
-        document.getElementById('resDolar').innerText = "$" + ingresos.toLocaleString(undefined, {minimumFractionDigits: 2});
-        
-        document.getElementById('resultadoFinal').style.display = 'block';
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        return {
+            piscina: document.getElementById('piscina').value || "S/N",
+            error: error + "%",
+            pob: Math.round(poblacionFinal),
+            lbs: Math.round(libras),
+            sup: supervivencia.toFixed(1) + "%"
+        };
     }
 
-    function imprimir() {
-        document.getElementById('p-piscina').innerText = "Piscina: " + (document.getElementById('piscina').value || "S/N");
-        document.getElementById('p-fecha').innerText = "Fecha: " + document.getElementById('fecha').value;
-        window.print();
+    function calcularVistaPrevia() {
+        const datos = obtenerCalculos();
+        document.getElementById('previewResult').innerText = datos.pob.toLocaleString() + " Cam.";
+        document.getElementById('previewLbs').innerText = "Biomasa: " + datos.lbs.toLocaleString() + " Lbs";
+        document.getElementById('preview').style.display = 'block';
+    }
+
+    function guardarHistorial() {
+        const datos = obtenerCalculos();
+        historial.push(datos);
+        renderizarTabla();
+        document.getElementById('preview').style.display = 'none';
+    }
+
+    function eliminarRegistro(index) {
+        historial.splice(index, 1);
+        renderizarTabla();
+    }
+
+    function renderizarTabla() {
+        const body = document.getElementById('historialBody');
+        body.innerHTML = "";
+        
+        historial.forEach((item, index) => {
+            const row = `<tr>
+                <td>${item.piscina}</td>
+                <td>${item.error}</td>
+                <td><strong>${item.pob.toLocaleString()}</strong></td>
+                <td>${item.lbs.toLocaleString()}</td>
+                <td>${item.sup}</td>
+                <td><button class="btn-delete" onclick="eliminarRegistro(${index})">✕</button></td>
+            </tr>`;
+            body.innerHTML += row;
+        });
+
+        document.getElementById('print-date').innerText = "Generado el: " + new Date().toLocaleString();
     }
 </script>
 
