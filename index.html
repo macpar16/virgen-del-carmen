@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Virgen del Carmen - Auditoría v3</title>
+    <title>Sistema Virgen del Carmen - Auditoría v4</title>
     <style>
         :root { 
             --primary: #1a4a7a; 
@@ -11,91 +11,152 @@
             --text: #2d3748;
             --danger: #e53e3e;
             --success: #38a169;
+            --border: #edf2f7;
         }
         
         body { 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
             background-color: var(--bg); 
             display: flex; flex-direction: column; align-items: center; padding: 20px; color: var(--text);
+            margin: 0;
         }
 
         .container { 
-            background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
             width: 100%; max-width: 700px; border-top: 10px solid var(--primary);
+            box-sizing: border-box;
         }
 
         .header { text-align: center; margin-bottom: 20px; }
-        .logo-container img { max-width: 220px; height: auto; }
-        .company-name { color: var(--primary); font-size: 1.6rem; font-weight: 800; text-transform: uppercase; margin: 5px 0; }
-        .subtitle { font-size: 1rem; color: #718096; font-weight: 600; text-transform: uppercase; }
+        .logo-container img { max-width: 200px; height: auto; }
+        .company-name { color: var(--primary); font-size: 1.6rem; font-weight: 800; text-transform: uppercase; margin: 5px 0; letter-spacing: 1px;}
+        .subtitle { font-size: 1rem; color: #718096; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;}
 
         .section-title { 
             font-size: 0.8rem; text-transform: uppercase; color: var(--primary); font-weight: bold; 
-            margin: 20px 0 10px 0; border-bottom: 2px solid #edf2f7; padding-bottom: 5px;
-            text-align: left;
+            margin: 20px 0 10px 0; border-bottom: 2px solid var(--border); padding-bottom: 5px;
+            text-align: left; letter-spacing: 1px;
         }
 
         .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .field { display: flex; flex-direction: column; margin-bottom: 10px; text-align: left;}
         label { font-size: 0.75rem; font-weight: bold; margin-bottom: 4px; color: #4a5568; }
-        input { padding: 10px; border: 2px solid #edf2f7; border-radius: 8px; font-size: 0.95rem; }
-        input:focus { border-color: var(--primary); outline: none; }
+        input { padding: 10px; border: 2px solid var(--border); border-radius: 8px; font-size: 0.95rem; background: #fdfdfd;}
+        input:focus { border-color: var(--primary); outline: none; background: white; box-shadow: 0 0 0 3px rgba(26, 74, 122, 0.1);}
 
-        /* Estilo Slider Margen de Error REUBICADO y MÁS PEQUEÑO */
+        /* --- ESTILOS BARRA DE ERROR MEJORADA --- */
         .slider-section { 
             grid-column: 1 / -1; 
-            background: #f1f5f9; 
-            padding: 10px; /* Reducido padding */
-            border-radius: 10px; 
-            margin-top: 5px; /* Reducido margen superior */
-            border: 1px solid #e2e8f0;
+            background: #f8fafc; 
+            padding: 15px;
+            border-radius: 12px; 
+            margin-top: 10px;
+            border: 1px solid var(--border);
+            box-sizing: border-box;
+            width: 100%; /* Asegura ocupar todo el ancho */
         }
-        .slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-        .slider-title { font-size: 0.7rem; font-weight: bold; color: #4a5568; text-transform: uppercase; }
-        .error-val { font-weight: bold; color: var(--danger); font-size: 1rem; }
+        .slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .slider-title { font-size: 0.7rem; font-weight: bold; color: #4a5568; text-transform: uppercase; letter-spacing: 0.5px;}
+        .error-val { font-weight: bold; color: var(--danger); font-size: 1.1rem; }
+        
+        /* Contenedor para centrar y contener la barra */
+        .slider-control-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px 0; /* Espacio vertical para el botón */
+        }
+
+        /* Reset de estilos nativos */
         input[type=range] { 
-            width: 100%; cursor: pointer; height: 4px; /* Barra más delgada */
-            border-radius: 5px; background: #ddd; outline: none; 
             -webkit-appearance: none; appearance: none;
+            width: 100%; /* Ocupa el ancho del wrapper */
+            background: transparent; /* Fondo transparente para ver la pista custom */
+            margin: 0; padding: 0; border: none; /* Reset márgenes */
+            cursor: pointer;
         }
+
+        /* Estilos de la Pista (Track) - FINA Y BONITA */
+        /* Webkit (Chrome, Safari, Edge, Opera) */
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 3px; /* Muy fina */
+            cursor: pointer; background: #e2e8f0; border-radius: 3px;
+        }
+        /* Firefox */
+        input[type=range]::-moz-range-track {
+            width: 100%; height: 3px;
+            cursor: pointer; background: #e2e8f0; border-radius: 3px;
+        }
+
+        /* Estilos del Botón (Thumb) - MINIMALISTA Y ELEGANTE */
+        /* Webkit */
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none; appearance: none;
-            width: 14px; height: 14px; /* Botón más pequeño */
-            border-radius: 50%; background: var(--primary); cursor: pointer;
-            border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            height: 16px; width: 16px; /* Tamaño elegante */
+            border-radius: 50%; background: var(--primary);
+            cursor: pointer; margin-top: -6.5px; /* Centrado vertical: (track_height/2) - (thumb_height/2) */
+            border: 2px solid white; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.1);
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+        input[type=range]:hover::-webkit-slider-thumb {
+            background: #2c6cb0; transform: scale(1.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        /* Firefox */
+        input[type=range]::-moz-range-thumb {
+            height: 16px; width: 16px;
+            border-radius: 50%; background: var(--primary);
+            cursor: pointer; border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+            transition: background 0.2s, transform 0.2s;
+        }
+        input[type=range]:hover::-moz-range-thumb {
+            background: #2c6cb0; transform: scale(1.1);
+        }
+
+        .slider-info { font-size: 0.6rem; color: #718096; margin-top: 5px; text-align: left; }
+        /* ------------------------------------------- */
+
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 25px; }
         button { 
             padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; 
-            transition: 0.3s; font-size: 0.9rem;
+            transition: all 0.2s; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;
         }
-        .btn-calc { background: var(--primary); color: white; }
-        .btn-save { background: var(--success); color: white; }
-        button:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-calc { background: var(--primary); color: white; box-shadow: 0 2px 4px rgba(26, 74, 122, 0.2);}
+        .btn-save { background: var(--success); color: white; box-shadow: 0 2px 4px rgba(56, 161, 105, 0.2);}
+        button:hover { opacity: 0.95; transform: translateY(-1px); box-shadow: 0 4px 6px rgba(0,0,0,0.1);}
+        button:active { transform: translateY(0); box-shadow: 0 2px 4px rgba(0,0,0,0.1);}
 
         /* Tabla de Historial */
-        .history-section { width: 100%; max-width: 700px; margin-top: 30px; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; font-size: 0.85rem; }
-        th { background: var(--primary); color: white; padding: 12px; text-align: left; }
-        td { padding: 10px; border-bottom: 1px solid #edf2f7; }
-        .btn-delete { color: var(--danger); border: none; background: none; cursor: pointer; font-weight: bold; font-size: 0.75rem;}
+        .history-section { width: 100%; max-width: 700px; margin-top: 35px; box-sizing: border-box;}
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; font-size: 0.85rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05);}
+        th { background: var(--primary); color: white; padding: 14px 12px; text-align: left; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px;}
+        td { padding: 12px; border-bottom: 1px solid var(--border); }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background-color: #f8fafc; }
+        .btn-delete { color: var(--danger); border: none; background: none; cursor: pointer; font-weight: bold; font-size: 0.75rem; padding: 0;}
+        .btn-delete:hover { text-decoration: underline; }
 
         .results-preview { 
-            margin-top: 20px; padding: 20px; background: #e2e8f0; border-radius: 12px; display: none; 
-            text-align: center; border: 2px dashed var(--primary);
+            margin-top: 25px; padding: 20px; background: #edf2f7; border-radius: 15px; display: none; 
+            text-align: center; border: 2px dashed var(--primary); animation: fadeIn 0.4s;
         }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .property-tag { margin-top: 30px; font-size: 0.7rem; color: #a0aec0; text-transform: uppercase; font-weight: bold; text-align: center;}
+        .property-tag { margin-top: 40px; font-size: 0.7rem; color: #a0aec0; text-transform: uppercase; font-weight: bold; text-align: center; letter-spacing: 1px;}
 
         @media print {
-            .container, .btn-group, .slider-section, .btn-delete, .field input { display: none !important; }
+            .container, .btn-group, .slider-section, .btn-delete, .field input, .property-tag { display: none !important; }
             body { background: white; padding: 0; }
-            .history-section { display: block !important; width: 100%; }
-            .print-header { display: block !important; text-align: center; margin-bottom: 20px; }
-            table { border: 1px solid #000; font-size: 0.7rem; width: 100%; border-collapse: collapse; }
-            th, td { border: 1px solid #000; color: black !important; padding: 5px; text-align: left; }
-            th { background-color: #eee !important; color: black !important; }
+            .history-section { display: block !important; width: 100%; margin-top: 0;}
+            .print-header { display: block !important; text-align: center; margin-bottom: 25px; border-bottom: 2px solid black; padding-bottom: 10px;}
+            table { border: 1px solid #000; font-size: 0.75rem; width: 100%; border-collapse: collapse; box-shadow: none;}
+            th, td { border: 1px solid #000; color: black !important; padding: 6px; text-align: left; }
+            th { background-color: #eee !important; color: black !important; text-transform: uppercase;}
+            tr:hover td { background-color: transparent; }
         }
         .print-header { display: none; }
     </style>
@@ -131,8 +192,10 @@
                 <span class="slider-title">Margen de Error (Seguridad)</span>
                 <span class="error-val" id="errorLabel">0%</span>
             </div>
-            <input type="range" id="margenError" min="0" max="100" value="0" step="1" oninput="updateErrorLabel(this.value)">
-            <p style="font-size: 0.6rem; color: #64748b; margin-top: 3px; text-align: left;">*Este % se restará de la población estimada total calculada.</p>
+            <div class="slider-control-wrapper">
+                <input type="range" id="margenError" min="0" max="100" value="0" step="1" oninput="updateErrorLabel(this.value)">
+            </div>
+            <p class="slider-info">*Este % se restará de la población estimada total calculada.</p>
         </div>
     </div>
 
@@ -142,17 +205,17 @@
     </div>
 
     <div id="preview" class="results-preview">
-        <div style="font-size: 0.8rem; font-weight: bold; color: var(--primary);">ESTIMACIÓN ACTUAL (CON ERROR APLICADO)</div>
-        <div id="previewResult" style="font-size: 1.6rem; font-weight: 800; margin: 10px 0; color: var(--danger);">-</div>
-        <div id="previewLbs" style="font-size: 1rem; font-weight: 600;">-</div>
+        <div style="font-size: 0.8rem; font-weight: bold; color: var(--primary); text-transform: uppercase; letter-spacing: 1px;">ESTIMACIÓN ACTUAL (CON ERROR APLICADO)</div>
+        <div id="previewResult" style="font-size: 1.8rem; font-weight: 800; margin: 10px 0; color: var(--danger);">-</div>
+        <div id="previewLbs" style="font-size: 1.1rem; font-weight: 600;">-</div>
     </div>
 </div>
 
 <div class="history-section">
     <div class="print-header">
-        <h2 style="margin:0; font-size: 1.2rem;">REPORTE CONSOLIDADO DE AUDITORÍA</h2>
-        <h3 style="margin:5px 0; color: var(--primary); font-size: 1rem;">CAMARONERA VIRGEN DEL CARMEN</h3>
-        <p id="print-date" style="font-size: 0.7rem; margin-top: 5px;"></p>
+        <h2 style="margin:0; font-size: 1.3rem; text-transform: uppercase; letter-spacing: 1px;">REPORTE CONSOLIDADO DE AUDITORÍA</h2>
+        <h3 style="margin:5px 0; color: var(--primary); font-size: 1.1rem; text-transform: uppercase;">CAMARONERA VIRGEN DEL CARMEN</h3>
+        <p id="print-date" style="font-size: 0.75rem; margin-top: 8px; color: #4a5568;"></p>
     </div>
     <div class="section-title">Resumen de Registros Consolidados</div>
     <table id="tablaHistorial">
@@ -170,16 +233,18 @@
             </tbody>
     </table>
     
-    <button onclick="window.print()" style="margin-top: 20px; width: 100%; padding: 15px; background: #fff; border: 2px solid var(--primary); color: var(--primary); font-weight: bold; border-radius: 10px; cursor: pointer; transition: 0.2s; font-size: 0.9rem;">
-        📄 DESCARGAR REPORTE CONSOLIDADO (PDF)
+    <button onclick="window.print()" style="margin-top: 25px; width: 100%; padding: 15px; background: #fff; border: 2px solid var(--primary); color: var(--primary); font-weight: bold; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <span>📄</span> DESCARGAR REPORTE CONSOLIDADO (PDF)
     </button>
 </div>
 
 <div class="property-tag">Propiedad de camaronera Virgen del Carmen</div>
 
 <script>
-    // Establecer fecha de hoy por defecto
-    document.getElementById('fecha').valueAsDate = new Date();
+    // Establecer fecha de hoy por defecto en formato local
+    const f = new Date();
+    document.getElementById('fecha').value = f.toISOString().split('T')[0];
+    
     let historial = [];
 
     // Actualiza la etiqueta de porcentaje y el cálculo en vivo
@@ -200,21 +265,25 @@
         const g = parseFloat(document.getElementById('gramos').value) || 0;
         const error = parseFloat(document.getElementById('margenError').value) || 0;
 
-        if (l === 0 || c === 0) return null;
+        if (l <= 0 || c <= 0 || h <= 0) return null;
 
         const promedio = c / l;
         const poblacionBruta = (promedio / a) * (h * 10000);
         
         // APLICACIÓN DEL MARGEN DE ERROR CORREGIDA (Resta el % indicado, rango 0-100)
-        // Fórmula: Bruta * ( (100 - Error) / 100 )
         const factorSeguridad = (100 - error) / 100;
         const poblacionFinal = poblacionBruta * factorSeguridad;
         
         const libras = (poblacionFinal * g) / 454;
 
+        // Formatear fecha para mostrar
+        const fechaInput = document.getElementById('fecha').value;
+        const fechaObj = new Date(fechaInput + 'T00:00:00');
+        const fechaFormateada = fechaObj.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
         return {
             piscina: document.getElementById('piscina').value || "S/N",
-            fecha: document.getElementById('fecha').value,
+            fecha: fechaFormateada,
             error: error + "%",
             pob: Math.round(poblacionFinal),
             lbs: Math.round(libras)
@@ -225,7 +294,7 @@
     function calcularVistaPrevia() {
         const datos = obtenerCalculos();
         if (!datos) {
-            alert("Por favor rellena los campos de N° Lances y Camarones Capturados.");
+            alert("Por favor rellena correctamente los campos obligatorios:\n- Piscina\n- N° Lances\n- Camarones Capturados\n- Hectáreas");
             return;
         }
         document.getElementById('previewResult').innerText = datos.pob.toLocaleString('es-ES') + " Camarones";
@@ -237,7 +306,7 @@
     function guardarHistorial() {
         const datos = obtenerCalculos();
         if (!datos) {
-            alert("Rellena los datos de campo antes de guardar.");
+            alert("Rellena y calcula los datos antes de guardar.");
             return;
         }
         historial.push(datos);
@@ -250,7 +319,7 @@
 
     // Elimina un registro específico
     function eliminarRegistro(index) {
-        if (confirm("¿Estás seguro de eliminar este registro?")) {
+        if (confirm("¿Estás seguro de eliminar este registro de la auditoría?")) {
             historial.splice(index, 1);
             renderizarTabla();
         }
@@ -263,18 +332,19 @@
         
         historial.forEach((item, index) => {
             const row = `<tr>
-                <td>${item.piscina}</td>
+                <td style="font-weight:600; color:var(--primary);">${item.piscina}</td>
                 <td>${item.fecha}</td>
                 <td style="color: var(--danger); font-weight:bold;">${item.error}</td>
                 <td><strong>${item.pob.toLocaleString('es-ES')}</strong></td>
-                <td>${item.lbs.toLocaleString('es-ES')}</td>
+                <td style="font-weight:600;">${item.lbs.toLocaleString('es-ES')}</td>
                 <td><button class="btn-delete" onclick="eliminarRegistro(${index})">✕ Eliminar</button></td>
             </tr>`;
             body.innerHTML += row;
         });
 
         // Actualizar fecha de impresión
-        document.getElementById('print-date').innerText = "Reporte generado el: " + new Date().toLocaleString('es-ES');
+        const ahora = new Date();
+        document.getElementById('print-date').innerText = "Reporte auditado el: " + ahora.toLocaleDateString('es-ES') + " a las " + ahora.toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'});
     }
 </script>
 
