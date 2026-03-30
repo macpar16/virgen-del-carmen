@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Virgen del Carmen - Auditoría v6</title>
+    <title>Sistema Virgen del Carmen - Auditoría v7</title>
     <style>
         :root { 
             --primary: #1a4a7a; 
@@ -39,7 +39,6 @@
             text-align: left; letter-spacing: 1px;
         }
 
-        /* Título para la sección opcional */
         .section-title-optional {
             font-size: 0.8rem; text-transform: uppercase; color: #718096; font-weight: bold; 
             margin: 25px 0 10px 0; border-bottom: 2px dashed var(--border); padding-bottom: 5px;
@@ -53,17 +52,13 @@
         input, select { 
             padding: 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 1rem; 
             background: #fdfdfd; -webkit-appearance: none; appearance: none;
-            font-family: inherit; color: inherit;
+            font-family: inherit; color: inherit; width: 100%; box-sizing: border-box;
         }
         input:focus, select:focus { border-color: var(--primary); outline: none; background: white; box-shadow: 0 0 0 3px rgba(26, 74, 122, 0.1);}
         
-        /* Select arrow custom styling */
         select {
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            background-size: 1em;
-            padding-right: 30px;
+            background-repeat: no-repeat; background-position: right 10px center; background-size: 1em; padding-right: 30px;
         }
 
         .slider-section { grid-column: 1 / -1; background: #f8fafc; padding: 15px; border-radius: 12px; margin-top: 10px; border: 1px solid var(--border); box-sizing: border-box; width: 100%; }
@@ -157,13 +152,14 @@
     <div class="input-group">
         <div class="field">
             <label>Unidad de Alimento</label>
-            <select id="unidadAlim">
+            <select id="unidadAlim" onchange="cambiarPlaceholder()">
                 <option value="Sacos">Sacos</option>
                 <option value="Kilos">Kilos</option>
             </select>
         </div>
-        <div class="field"><label>Cantidad</label><input type="number" id="cantAlim" placeholder="Ej: 4" inputmode="decimal"></div>
-        <div class="field" style="grid-column: 1 / -1;"><label>Rendimiento (Lbs estimadas por unidad)</label><input type="number" id="rendAlim" placeholder="Ej: 1200" inputmode="decimal"></div>
+        <div class="field"><label>Cantidad</label><input type="number" id="cantAlim" placeholder="Ej: 4 sacos" inputmode="decimal"></div>
+        <div class="field"><label>Peso del Saco (Kg)</label><input type="number" id="pesoSaco" value="25" inputmode="decimal"></div>
+        <div class="field"><label>Rendimiento (Lbs / Saco)</label><input type="number" id="rendAlim" placeholder="Ej: 1200" inputmode="decimal"></div>
     </div>
 
     <div class="btn-group">
@@ -227,6 +223,12 @@
     document.getElementById('fecha').value = f.toISOString().split('T')[0];
     let historial = [];
 
+    // Cambia el placeholder dependiendo si eliges sacos o kilos
+    function cambiarPlaceholder() {
+        const unidad = document.getElementById('unidadAlim').value;
+        document.getElementById('cantAlim').placeholder = unidad === 'Sacos' ? 'Ej: 4 sacos' : 'Ej: 100 kilos';
+    }
+
     function updateErrorLabel(val) {
         document.getElementById('errorLabel').innerText = val + "%";
         if (document.getElementById('preview').style.display === 'block') {
@@ -244,7 +246,9 @@
         const error = parseFloat(document.getElementById('margenError').value) || 0;
 
         // Datos Opcionales Alimento
+        const unidadAlim = document.getElementById('unidadAlim').value;
         const cantAlim = parseFloat(document.getElementById('cantAlim').value) || 0;
+        const pesoSaco = parseFloat(document.getElementById('pesoSaco').value) || 25; // Default 25kg
         const rendAlim = parseFloat(document.getElementById('rendAlim').value) || 0;
 
         if (l <= 0 || c <= 0 || h <= 0) return null;
@@ -267,10 +271,19 @@
         let lbsAlimento = 0;
         let lbsPromedio = lbsMuestreo;
 
-        // Si el usuario llenó ambos campos del alimento opcional
+        // LÓGICA DE CONVERSIÓN SACOS/KILOS
         if (cantAlim > 0 && rendAlim > 0) {
             usaAlimento = true;
-            lbsAlimento = cantAlim * rendAlim;
+            let totalSacos = 0;
+            
+            if (unidadAlim === 'Sacos') {
+                totalSacos = cantAlim;
+            } else {
+                // Si son kilos, los dividimos para el peso del saco para saber cuántos sacos son
+                totalSacos = cantAlim / pesoSaco;
+            }
+
+            lbsAlimento = totalSacos * rendAlim;
             lbsPromedio = (lbsMuestreo + lbsAlimento) / 2;
         }
 
@@ -328,7 +341,6 @@
         historial.push(d);
         renderizarTabla();
         
-        // Reset vista previa
         document.getElementById('preview').style.display = 'none';
         document.getElementById('margenError').value = 0;
         document.getElementById('errorLabel').innerText = "0%";
