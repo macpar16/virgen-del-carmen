@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Virgen del Carmen - Auditoría v5 (Móvil)</title>
+    <title>Sistema Virgen del Carmen - Auditoría v6</title>
     <style>
         :root { 
             --primary: #1a4a7a; 
@@ -11,6 +11,7 @@
             --text: #2d3748;
             --danger: #e53e3e;
             --success: #38a169;
+            --warning: #ed8936;
             --border: #edf2f7;
         }
         
@@ -38,117 +39,76 @@
             text-align: left; letter-spacing: 1px;
         }
 
-        /* --- GRILLA DE ENTRADAS (RESPONSIVA) --- */
-        .input-group { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; /* 2 columnas por defecto */
-            gap: 12px; 
+        /* Título para la sección opcional */
+        .section-title-optional {
+            font-size: 0.8rem; text-transform: uppercase; color: #718096; font-weight: bold; 
+            margin: 25px 0 10px 0; border-bottom: 2px dashed var(--border); padding-bottom: 5px;
+            text-align: left; letter-spacing: 1px;
         }
+
+        .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .field { display: flex; flex-direction: column; margin-bottom: 10px; text-align: left;}
         label { font-size: 0.75rem; font-weight: bold; margin-bottom: 4px; color: #4a5568; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        input { padding: 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 1rem; background: #fdfdfd; -webkit-appearance: none;} /* Altura de input mejorada para táctil */
-        input:focus { border-color: var(--primary); outline: none; background: white; box-shadow: 0 0 0 3px rgba(26, 74, 122, 0.1);}
-
-        /* --- ESTILOS BARRA DE ERROR MEJORADA --- */
-        .slider-section { 
-            grid-column: 1 / -1; /* Ocupa todo el ancho siempre */
-            background: #f8fafc; 
-            padding: 15px;
-            border-radius: 12px; 
-            margin-top: 10px;
-            border: 1px solid var(--border);
-            box-sizing: border-box;
-            width: 100%; 
+        
+        input, select { 
+            padding: 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 1rem; 
+            background: #fdfdfd; -webkit-appearance: none; appearance: none;
+            font-family: inherit; color: inherit;
         }
+        input:focus, select:focus { border-color: var(--primary); outline: none; background: white; box-shadow: 0 0 0 3px rgba(26, 74, 122, 0.1);}
+        
+        /* Select arrow custom styling */
+        select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 1em;
+            padding-right: 30px;
+        }
+
+        .slider-section { grid-column: 1 / -1; background: #f8fafc; padding: 15px; border-radius: 12px; margin-top: 10px; border: 1px solid var(--border); box-sizing: border-box; width: 100%; }
         .slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .slider-title { font-size: 0.7rem; font-weight: bold; color: #4a5568; text-transform: uppercase; letter-spacing: 0.5px;}
         .error-val { font-weight: bold; color: var(--danger); font-size: 1.1rem; }
-        
         .slider-control-wrapper { width: 100%; display: flex; justify-content: center; align-items: center; padding: 5px 0; }
         input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; background: transparent; margin: 0; padding: 0; border: none; cursor: pointer; }
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 3px; cursor: pointer; background: #e2e8f0; border-radius: 3px; }
-        input[type=range]::-moz-range-track { width: 100%; height: 3px; cursor: pointer; background: #e2e8f0; border-radius: 3px; }
         input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; height: 18px; width: 18px; border-radius: 50%; background: var(--primary); cursor: pointer; margin-top: -7.5px; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.15); transition: background 0.2s, transform 0.2s; }
-        input[type=range]:hover::-webkit-slider-thumb { background: #2c6cb0; transform: scale(1.1); }
-        input[type=range]::-moz-range-thumb { height: 18px; width: 18px; border-radius: 50%; background: var(--primary); cursor: pointer; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
         .slider-info { font-size: 0.6rem; color: #718096; margin-top: 5px; text-align: left; }
 
-        /* --- GRUPO DE BOTONES (RESPONSIVO) --- */
-        .btn-group { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; /* 2 columnas por defecto */
-            gap: 10px; 
-            margin-top: 25px; 
-        }
-        button { 
-            padding: 16px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; 
-            transition: all 0.2s; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;
-        }
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 25px; }
+        button { padding: 16px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px; }
         .btn-calc { background: var(--primary); color: white; box-shadow: 0 2px 4px rgba(26, 74, 122, 0.2);}
         .btn-save { background: var(--success); color: white; box-shadow: 0 2px 4px rgba(56, 161, 105, 0.2);}
         button:hover { opacity: 0.95; transform: translateY(-1px); box-shadow: 0 4px 6px rgba(0,0,0,0.1);}
 
-        /* --- TABLA DE HISTORIAL (CORRECCIÓN MÓVIL) --- */
-        .history-section { width: 100%; max-width: 700px; margin-top: 35px; box-sizing: border-box;}
-        
-        /* Contenedor para scroll horizontal en móvil */
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            background: white;
-            border: 1px solid var(--border);
-        }
-
-        table { width: 100%; border-collapse: collapse; min-width: 500px; font-size: 0.85rem; } /* min-width asegura que scrollee */
-        th { background: var(--primary); color: white; padding: 14px 10px; text-align: left; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; white-space: nowrap;}
-        td { padding: 12px 10px; border-bottom: 1px solid var(--border); }
+        .history-section { width: 100%; max-width: 900px; margin-top: 35px; box-sizing: border-box;}
+        .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); background: white; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; font-size: 0.8rem; }
+        th { background: var(--primary); color: white; padding: 12px 10px; text-align: left; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.5px; white-space: nowrap;}
+        td { padding: 12px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
         .btn-delete { color: var(--danger); border: none; background: none; cursor: pointer; font-weight: bold; font-size: 0.75rem; padding: 0;}
 
         .results-preview { margin-top: 25px; padding: 20px; background: #edf2f7; border-radius: 15px; display: none; text-align: center; border: 2px dashed var(--primary); }
+        .preview-divider { border: 0; border-top: 1px solid #cbd5e0; margin: 15px 0; }
         .property-tag { margin-top: 40px; font-size: 0.7rem; color: #a0aec0; text-transform: uppercase; font-weight: bold; text-align: center; letter-spacing: 1px; padding-bottom: 20px;}
 
-        /* --- BOTÓN IMPRIMIR ESTILIZADO --- */
-        .btn-print-outer {
-            margin-top: 25px; width: 100%; padding: 16px; background: #fff; border: 2px solid var(--primary); color: var(--primary); 
-            font-weight: bold; border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 1rem; 
-            display: flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase;
-        }
+        .btn-print-outer { margin-top: 25px; width: 100%; padding: 16px; background: #fff; border: 2px solid var(--primary); color: var(--primary); font-weight: bold; border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase; }
         .btn-print-outer:hover { background: var(--primary); color: white; }
 
-        /* =========================================
-           MEDIA QUERIES (AJUSTES PARA MÓVIL)
-           ========================================= */
         @media (max-width: 600px) {
             body { padding: 10px; }
             .container { padding: 20px 15px; border-radius: 15px; }
-            .company-name { font-size: 1.3rem; }
-            .subtitle { font-size: 0.85rem; }
-            
-            /* Cambiar grillas a UNA SOLA COLUMNA en vertical */
             .input-group, .btn-group { grid-template-columns: 1fr; gap: 10px; }
-            
-            label { font-size: 0.7rem; }
-            input { padding: 10px; font-size: 0.95rem; }
-            button { padding: 14px; font-size: 0.9rem; }
-            
-            .slider-header { flex-direction: column; align-items: flex-start; gap: 3px; }
-            .error-val { font-size: 1rem; }
-            
-            #previewResult { font-size: 1.5rem; }
-            #previewLbs { font-size: 0.95rem; }
         }
 
-        /* ESTILOS DE IMPRESIÓN (Mantenidos y optimizados) */
         @media print {
             .container, .btn-group, .slider-section, .btn-delete, .field input, .property-tag, .btn-print-outer { display: none !important; }
             body { background: white; padding: 0; }
-            .history-section { display: block !important; width: 100%; margin-top: 0;}
+            .history-section { display: block !important; width: 100%; margin-top: 0; max-width: 100%;}
             .print-header { display: block !important; text-align: center; margin-bottom: 25px; border-bottom: 2px solid black; padding-bottom: 10px;}
             .table-responsive { overflow: visible; box-shadow: none; border: none; }
-            table { border: 1px solid #000; font-size: 0.75rem; width: 100%; border-collapse: collapse; min-width: 100%;}
+            table { border: 1px solid #000; font-size: 0.7rem; width: 100%; border-collapse: collapse; min-width: 100%;}
             th, td { border: 1px solid #000; color: black !important; padding: 6px; text-align: left; }
             th { background-color: #eee !important; color: black !important;}
         }
@@ -193,15 +153,41 @@
         </div>
     </div>
 
+    <div class="section-title-optional">Estimación por Alimento (Opcional)</div>
+    <div class="input-group">
+        <div class="field">
+            <label>Unidad de Alimento</label>
+            <select id="unidadAlim">
+                <option value="Sacos">Sacos</option>
+                <option value="Kilos">Kilos</option>
+            </select>
+        </div>
+        <div class="field"><label>Cantidad</label><input type="number" id="cantAlim" placeholder="Ej: 4" inputmode="decimal"></div>
+        <div class="field" style="grid-column: 1 / -1;"><label>Rendimiento (Lbs estimadas por unidad)</label><input type="number" id="rendAlim" placeholder="Ej: 1200" inputmode="decimal"></div>
+    </div>
+
     <div class="btn-group">
         <button class="btn-calc" onclick="calcularVistaPrevia()">VER VISTA PREVIA</button>
         <button class="btn-save" onclick="guardarHistorial()">GUARDAR EN HISTORIAL</button>
     </div>
 
     <div id="preview" class="results-preview">
-        <div style="font-size: 0.8rem; font-weight: bold; color: var(--primary); text-transform: uppercase; letter-spacing: 1px;">ESTIMACIÓN ACTUAL (CON ERROR APLICADO)</div>
-        <div id="previewResult" style="font-size: 1.8rem; font-weight: 800; margin: 10px 0; color: var(--danger);">-</div>
-        <div id="previewLbs" style="font-size: 1.1rem; font-weight: 600;">-</div>
+        <div style="font-size: 0.8rem; font-weight: bold; color: var(--primary); text-transform: uppercase; letter-spacing: 1px;">Población Estimada</div>
+        <div id="prevPob" style="font-size: 1.8rem; font-weight: 800; margin: 5px 0; color: var(--danger);">-</div>
+        
+        <div style="font-size: 0.85rem; color: #4a5568; font-weight: 600; margin-bottom: 10px;">
+            <span id="prevDenHa">-</span> /ha &nbsp;|&nbsp; <span id="prevDenM2">-</span> /m²
+        </div>
+
+        <hr class="preview-divider">
+        
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="font-size: 0.95rem; color: #2d3748;">Biomasa por Muestreo: <strong id="prevLbsMuestreo" style="color: var(--primary);">-</strong></div>
+            <div id="boxAlimento" style="display: none; font-size: 0.95rem; color: #2d3748;">Biomasa por Alimento: <strong id="prevLbsAlimento" style="color: var(--warning);">-</strong></div>
+            <div id="boxPromedio" style="display: none; margin-top: 5px; font-size: 1.1rem; font-weight: bold; color: var(--success); background: #c6f6d5; padding: 8px; border-radius: 8px;">
+                PROMEDIO FINAL: <span id="prevLbsPromedio">-</span>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -211,17 +197,16 @@
         <h3 style="margin:5px 0; color: var(--primary); font-size: 1.1rem; text-transform: uppercase;">CAMARONERA VIRGEN DEL CARMEN</h3>
         <p id="print-date" style="font-size: 0.75rem; margin-top: 8px; color: #4a5568;"></p>
     </div>
-    <div class="section-title">Resumen de Registros Consolidados</div>
     
     <div class="table-responsive">
         <table id="tablaHistorial">
             <thead>
                 <tr>
-                    <th>Piscina</th>
-                    <th>Fecha</th>
-                    <th>Error %</th>
-                    <th>Población Est.</th>
-                    <th>Biomasa (Lbs)</th>
+                    <th>Piscina / Fecha</th>
+                    <th>Población / Densidad</th>
+                    <th>Lbs Muestreo</th>
+                    <th>Lbs Alimento</th>
+                    <th>Lbs Promedio Final</th>
                     <th>Acción</th>
                 </tr>
             </thead>
@@ -238,132 +223,157 @@
 <div class="property-tag">Propiedad de camaronera Virgen del Carmen</div>
 
 <script>
-    // Establecer fecha de hoy por defecto en formato local
     const f = new Date();
     document.getElementById('fecha').value = f.toISOString().split('T')[0];
-    
     let historial = [];
 
-    // Actualiza la etiqueta de porcentaje y el cálculo en vivo
     function updateErrorLabel(val) {
         document.getElementById('errorLabel').innerText = val + "%";
-        // Si la vista previa está visible, actualízala dinámicamente
         if (document.getElementById('preview').style.display === 'block') {
             calcularVistaPrevia();
         }
     }
 
-    // Función maestra de cálculo (aplica el error)
     function obtenerCalculos() {
+        // Datos Básicos
         const l = parseFloat(document.getElementById('lances').value) || 0;
         const c = parseFloat(document.getElementById('captura').value) || 0;
-        const a = parseFloat(document.getElementById('areaAta').value) || 1; // Evitar división por cero
+        const a = parseFloat(document.getElementById('areaAta').value) || 1; 
         const h = parseFloat(document.getElementById('ha').value) || 0;
         const g = parseFloat(document.getElementById('gramos').value) || 0;
-        const s = parseFloat(document.getElementById('siembra').value) || 0;
         const error = parseFloat(document.getElementById('margenError').value) || 0;
 
-        // Validación básica
+        // Datos Opcionales Alimento
+        const cantAlim = parseFloat(document.getElementById('cantAlim').value) || 0;
+        const rendAlim = parseFloat(document.getElementById('rendAlim').value) || 0;
+
         if (l <= 0 || c <= 0 || h <= 0) return null;
 
+        // Cálculos de Población
         const promedioLance = c / l;
         const poblacionBrutaHA = promedioLance / a;
         const poblacionBrutaTotal = poblacionBrutaHA * (h * 10000);
-        
-        // APLICACIÓN DEL MARGEN DE ERROR (Resta el % indicado, rango 0-100)
         const factorSeguridad = (100 - error) / 100;
         const poblacionFinal = poblacionBrutaTotal * factorSeguridad;
         
-        const libras = (poblacionFinal * g) / 454;
+        // Cálculos de Densidad
+        const denHa = poblacionFinal / h;
+        const denM2 = denHa / 10000;
+
+        // Cálculos de Biomasa
+        const lbsMuestreo = (poblacionFinal * g) / 454;
         
-        // Supervivencia estimada (para mostrar en tabla consolidada)
-        let supervivencia = 0;
-        if(s > 0) {
-            supervivencia = (poblacionFinal / s) * 100;
+        let usaAlimento = false;
+        let lbsAlimento = 0;
+        let lbsPromedio = lbsMuestreo;
+
+        // Si el usuario llenó ambos campos del alimento opcional
+        if (cantAlim > 0 && rendAlim > 0) {
+            usaAlimento = true;
+            lbsAlimento = cantAlim * rendAlim;
+            lbsPromedio = (lbsMuestreo + lbsAlimento) / 2;
         }
 
-        // Formatear fecha para mostrar
-        const fechaInput = document.getElementById('fecha').value;
-        const fechaObj = new Date(fechaInput + 'T00:00:00');
-        const fechaFormateada = fechaObj.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        const fechaObj = new Date(document.getElementById('fecha').value + 'T00:00:00');
+        const fechaFormateada = fechaObj.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' });
 
         return {
             piscina: document.getElementById('piscina').value || "S/N",
             fecha: fechaFormateada,
             error: error + "%",
-            pobBruta: Math.round(poblacionBrutaTotal),
             pob: Math.round(poblacionFinal),
-            lbs: Math.round(libras),
-            sup: supervivencia.toFixed(1) + "%"
+            denHa: Math.round(denHa),
+            denM2: denM2.toFixed(1),
+            usaAlimento: usaAlimento,
+            lbsMuestreo: Math.round(lbsMuestreo),
+            lbsAlimento: Math.round(lbsAlimento),
+            lbsPromedio: Math.round(lbsPromedio)
         };
     }
 
-    // Muestra el cálculo actual en pantalla antes de guardar
     function calcularVistaPrevia() {
-        const datos = obtenerCalculos();
-        if (!datos) {
-            alert("Por favor rellena correctamente los campos obligatorios de campo:\n- N° Lances\n- Camarones Capturados\n- Hectáreas");
+        const d = obtenerCalculos();
+        if (!d) {
+            alert("Rellena N° Lances, Camarones y Hectáreas.");
             return;
         }
-        document.getElementById('previewResult').innerText = datos.pob.toLocaleString('es-ES') + " Camarones";
-        document.getElementById('previewLbs').innerText = "Biomasa Proyectada: " + datos.lbs.toLocaleString('es-ES') + " Lbs";
-        document.getElementById('preview').style.display = 'block';
         
-        // Scroll suave hasta la vista previa
+        document.getElementById('prevPob').innerText = d.pob.toLocaleString('es-ES') + " cam.";
+        document.getElementById('prevDenHa').innerText = d.denHa.toLocaleString('es-ES');
+        document.getElementById('prevDenM2').innerText = d.denM2.replace('.', ',');
+        
+        document.getElementById('prevLbsMuestreo').innerText = d.lbsMuestreo.toLocaleString('es-ES') + " Lbs";
+        
+        const boxAlim = document.getElementById('boxAlimento');
+        const boxProm = document.getElementById('boxPromedio');
+
+        if (d.usaAlimento) {
+            document.getElementById('prevLbsAlimento').innerText = d.lbsAlimento.toLocaleString('es-ES') + " Lbs";
+            document.getElementById('prevLbsPromedio').innerText = d.lbsPromedio.toLocaleString('es-ES') + " Lbs";
+            boxAlim.style.display = 'block';
+            boxProm.style.display = 'block';
+        } else {
+            boxAlim.style.display = 'none';
+            boxProm.style.display = 'none';
+        }
+
+        document.getElementById('preview').style.display = 'block';
         document.getElementById('preview').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Guarda el cálculo actual en la tabla inferior y limpia la vista previa
     function guardarHistorial() {
-        const datos = obtenerCalculos();
-        if (!datos) {
-            alert("Rellena y calcula los datos de campo antes de guardar.");
-            return;
-        }
-        historial.push(datos);
+        const d = obtenerCalculos();
+        if (!d) { alert("Calcula los datos antes de guardar."); return; }
+        
+        historial.push(d);
         renderizarTabla();
-        // Ocultar vista previa y resetear slider a 0%
+        
+        // Reset vista previa
         document.getElementById('preview').style.display = 'none';
         document.getElementById('margenError').value = 0;
         document.getElementById('errorLabel').innerText = "0%";
+        document.getElementById('cantAlim').value = "";
+        document.getElementById('rendAlim').value = "";
     }
 
-    // Elimina un registro específico
     function eliminarRegistro(index) {
-        if (confirm("¿Estás seguro de eliminar este registro de la auditoría consolidada?")) {
+        if (confirm("¿Eliminar este registro?")) {
             historial.splice(index, 1);
             renderizarTabla();
         }
     }
 
-    // Dibuja la tabla con los datos guardados
     function renderizarTabla() {
         const body = document.getElementById('historialBody');
         body.innerHTML = "";
         
         if(historial.length === 0) {
-            body.innerHTML = "<tr><td colspan='6' style='text-align:center; color:#718096;'>No hay registros guardados en esta sesión.</td></tr>";
+            body.innerHTML = "<tr><td colspan='6' style='text-align:center; color:#718096; padding: 20px;'>No hay registros guardados en esta sesión.</td></tr>";
             return;
         }
 
         historial.forEach((item, index) => {
             const row = `<tr>
-                <td style="font-weight:600; color:var(--primary); white-space:nowrap;">${item.piscina}</td>
-                <td style="white-space:nowrap;">${item.fecha}</td>
-                <td style="color: var(--danger); font-weight:bold;">${item.error}</td>
-                <td><strong>${item.pob.toLocaleString('es-ES')}</strong> <span style="font-size:0.7rem; color:#718096;">(Sup: ${item.sup})</span></td>
-                <td style="font-weight:600;">${item.lbs.toLocaleString('es-ES')}</td>
+                <td>
+                    <strong style="color:var(--primary); font-size:0.9rem;">${item.piscina}</strong><br>
+                    <span style="font-size:0.7rem; color:#718096;">${item.fecha} | Err: <span style="color:var(--danger)">${item.error}</span></span>
+                </td>
+                <td>
+                    <strong>${item.pob.toLocaleString('es-ES')}</strong><br>
+                    <span style="font-size:0.7rem; color:#718096;">${item.denHa.toLocaleString('es-ES')}/ha | ${item.denM2.replace('.', ',')}/m²</span>
+                </td>
+                <td style="font-weight:600; color:#4a5568;">${item.lbsMuestreo.toLocaleString('es-ES')}</td>
+                <td style="font-weight:600; color:var(--warning);">${item.usaAlimento ? item.lbsAlimento.toLocaleString('es-ES') : '-'}</td>
+                <td style="font-weight:800; color:var(--success); font-size:0.95rem;">${item.lbsPromedio.toLocaleString('es-ES')}</td>
                 <td style="text-align:center;"><button class="btn-delete" onclick="eliminarRegistro(${index})">✕</button></td>
             </tr>`;
             body.innerHTML += row;
         });
 
-        // Actualizar fecha de impresión
         const ahora = new Date();
         document.getElementById('print-date').innerText = "Reporte auditado el: " + ahora.toLocaleDateString('es-ES') + " a las " + ahora.toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'});
     }
     
-    // Inicializar tabla vacía al cargar
     renderizarTabla();
 </script>
 
